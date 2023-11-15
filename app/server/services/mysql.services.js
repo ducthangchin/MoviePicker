@@ -18,24 +18,26 @@ const connectToDB = async () => {
         console.log('Connected to database')
         client.release()
     } catch (err) {
+
+        console.log(DB_config, process.env.DB_HOST)
         console.error('Error connecting to database:', err.message || err)
+        setTimeout(connectToDB, 2000)
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            setTimeout(connectToDB, 2000)
         }
     }
 }
 
 connectToDB()
 
-// const poolInfo = () => {
-//     console.log('pool.totalCount:', pool.totalCount)
-//     console.log('pool.idleCount:', pool.idleCount)
-//     console.log('pool.waitingCount:', pool.waitingCount)
-//     console.log('-----------------------------------')
-//     setTimeout(poolInfo, 2000)
-// }
+const poolInfo = () => {
+    console.log('pool.totalCount:', pool.totalCount)
+    console.log('pool.idleCount:', pool.idleCount)
+    console.log('pool.waitingCount:', pool.waitingCount)
+    console.log('-----------------------------------')
+    setTimeout(poolInfo, 2000)
+}
 
-// poolInfo()
+poolInfo()
 
 const query = (sql, params) => pool.query(sql, params)
 
