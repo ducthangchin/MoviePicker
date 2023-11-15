@@ -1,33 +1,42 @@
-const mysql = require('mysql')
 const DB_config = require('../config/database.config')
+const { Pool } = require('pg')
 
-let connection
+const pool = new Pool({
+    ...DB_config,
+    max: 10,
+    idleTimeoutMillis: 20000,
+})
 
-const handleDisconnect = () => {
-    connection = mysql.createConnection(DB_config)
-    connection.connect(err => {
-        if (err) {
-            console.log('error when connecting to db:', err)
-            setTimeout(handleDisconnect, 2000)
-        }
-    })
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+})
 
-    connection.on('error', err => {
-        console.log('db err', err)
+const connectToDB = async () => {
+    try {
+        const client = await pool.connect()
+        console.log('Connected to database')
+        client.release()
+    } catch (err) {
+        console.error('Error connecting to database:', err.message || err)
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            handleDisconnect()
-        } else throw err;
-    })
+            setTimeout(connectToDB, 2000)
+        }
+    }
 }
 
-handleDisconnect()
+connectToDB()
 
-const query = (sql, params) =>
-    new Promise((resolve, reject) => {
-        connection.query(sql, params, (err, result) => {
-            //connection.end()
-            return err ? reject(err) : resolve(result)
-        })
-    })
+// const poolInfo = () => {
+//     console.log('pool.totalCount:', pool.totalCount)
+//     console.log('pool.idleCount:', pool.idleCount)
+//     console.log('pool.waitingCount:', pool.waitingCount)
+//     console.log('-----------------------------------')
+//     setTimeout(poolInfo, 2000)
+// }
+
+// poolInfo()
+
+const query = (sql, params) => pool.query(sql, params)
 
 module.exports = query

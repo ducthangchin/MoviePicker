@@ -14,7 +14,7 @@ exports.addBookmark = async (req, res) => {
         await bookmarkService.addBookmark(user.id, movie_id, category)
         return res.send('Bookmark has been added successfully')
     } else {
-        res.send('Bookmark has already existed')
+        res.status(401).send('Bookmark has already existed')
     }
 }
 
