@@ -6,6 +6,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const swaggerConfig = require('./config/swagger.config');
 
+const tmdbRouter = require('./routes/tmdb.routes');
 const authRouter = require('./routes/auth.routes');
 const ratingRouter = require('./routes/rating.routes');
 const userRouter = require('./routes/user.routes');
@@ -24,15 +25,38 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-    console.log(`API DOCS URL: /${apiDocsUrl}`);
+const db = require('./models/db');
+
+app.listen(port, async () => {
+  console.log(`Server is running on port ${port}`);
+  console.log(`API DOCS URL: /${apiDocsUrl}`);
+
+  db.sequelize.sync({ alter: true })
+    .then(() => {
+      console.log("Synced db.");
+    })
+    .catch((err) => {
+      console.log("Failed to sync db: " + err.message);
+    });
 });
 
-app.get('/', (req, res) => {
-    res.send('API IS RUNNING');
+app.get('/', async (req, res) => {
+  const { User, Review } = db;
+  const list = await Review.findAll({
+    where: {
+      userId: 6,
+    },
+    include: [{
+      model: User,
+      as: 'user',
+    }],
+  });
+
+  res.send(list);
 });
 
+
+app.use('/tmdb', tmdbRouter);
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/rating', ratingRouter);

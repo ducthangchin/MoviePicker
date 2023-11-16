@@ -8,7 +8,7 @@ services:
       - pg
 
   pg:
-    image: postgres:9.6
+    image: postgres
     ports:
       - "5432:5432"
     environment:
@@ -16,9 +16,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - popcorn:/var/lib/postgresql/data
 volumes:
-  pgdata:
+  popcorn:
     driver: local
 
       

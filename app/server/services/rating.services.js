@@ -1,4 +1,4 @@
-const query = require('./mysql.services')
+const query = require('../models/db')
 
 const getRatingById = async (rating_id) => {
     const results = await query('SELECT * FROM rating where id = ?', rating_id)

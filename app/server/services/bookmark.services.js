@@ -1,4 +1,4 @@
-const query = require('./mysql.services')
+const query = require('../models/db')
 
 const addBookmark = async (user_id, movie_id, category) =>
     await query('INSERT INTO bookmark (user_id, movie_id, category) VALUES (?, ?, ?)', [

@@ -1,4 +1,4 @@
-const query = require('./mysql.services')
+const query = require('../models/db')
 
 const addWatched = async (user_id, movie_id) =>
     await query('INSERT INTO watched (user_id, movie_id) VALUES (?, ?)', [

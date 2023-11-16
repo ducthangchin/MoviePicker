@@ -1,4 +1,4 @@
-const query = require('./mysql.services')
+const query = require('../models/db')
 
 const getReviewById = async (id) => {
     const result = await query('SELECT * FROM review WHERE id = ?', id)
