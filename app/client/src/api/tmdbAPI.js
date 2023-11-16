@@ -8,7 +8,7 @@ const axiosClient = axios.create({
         'Content-Type': 'application/json'
     },
     paramsSerializer: {
-        serialize: params => stringify({ ...params, api_key: config.apiKey })
+        serialize: params => stringify({ ...params })
     }
 }
 )

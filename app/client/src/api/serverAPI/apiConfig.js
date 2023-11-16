@@ -1,7 +1,7 @@
 const apiConfig = {
-    imgURL: (path) => `http://image.popcorn.ducthangchin.engineer/images/${path}`,
-    baseURL: 'http://api.v1.ducthangchin.engineer'
-    //baseURL: 'http://localhost:5000'
+    imgURL: (path) => `${process.env.REACT_APP_BASE_IMAGE_URL}/${path}`,
+    // baseURL: 'http://api.v1.ducthangchin.engineer'
+    baseURL: process.env.REACT_APP_BASE_URL
 }
 
 export default apiConfig

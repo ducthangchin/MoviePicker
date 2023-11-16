@@ -4,8 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import Routes from './config/Routes';
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer';
+import { useEffect } from 'react';
 
 const App = () => {
+  useEffect(() => {
+    console.log(process.env)
+  }, [])
   return (
     <div className="App">
       <BrowserRouter>
