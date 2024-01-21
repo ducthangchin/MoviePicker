@@ -1,6 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const path = require('path');
+require('dotenv').config()
+
 
 const authRouter = require('./routes/auth.routes')
 const ratingRouter = require('./routes/rating.routes')
@@ -15,6 +18,7 @@ const port = process.env.PORT || 5000
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use('/images', express.static(path.join(__dirname, '~', 'data', 'images')));
 
 app.listen(port, () => console.log(`Server is running on port ${port}`))
 

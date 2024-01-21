@@ -1,6 +1,5 @@
 module.exports = {
-    accessTokenSecret:
-        'hay trao cho anh, hay trao cho anh nhung thu anh dang mong doi',
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     accessTokenLife: '30m',
     refreshTokenSize: 100,
 }

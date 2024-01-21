@@ -1,7 +1,7 @@
 module.exports = {
-    user: 'uwjp41cc2guf7bii',
-    host: 'bhdkevvwuqmayn2gcobm-mysql.services.clever-cloud.com',
-    password: 'PASTE-PASSWORD-HERE',
-    database: 'bhdkevvwuqmayn2gcobm',
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     timezone: 'utc'
 }
